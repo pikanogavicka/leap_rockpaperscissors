@@ -1,0 +1,12 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1045 &1
+EditorBuildSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Scenes:
+  - enabled: 0
+    path: Assets/Samples/Ultraleap Tracking/5.12.1/Examples/Core Examples/Capsule
+      Hands (Desktop).unity
+    guid: e97e5c56326797c41be5a618cde4727a
+  m_configObjects: {}
