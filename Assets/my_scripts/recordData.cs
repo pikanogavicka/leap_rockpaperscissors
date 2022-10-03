@@ -1,4 +1,4 @@
-﻿/*using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
@@ -6,104 +6,111 @@ using System.IO;
 
 public class recordData : MonoBehaviour
 {
+  public string filename;
 
-    public GameObject thumb1;
-    public GameObject thumb2;
-    public GameObject thumb3;
-    public GameObject thumb4;
+  public GameObject index_a;
+  public GameObject index_b;
+  public GameObject index_c;
+  public GameObject index_end;
 
-    public GameObject index1;
-    public GameObject index2;
-    public GameObject index3;
-    public GameObject index4;
+  public GameObject middle_a;
+  public GameObject middle_b;
+  public GameObject middle_c;
+  public GameObject middle_end;
 
-    public GameObject middle1;
-    public GameObject middle2;
-    public GameObject middle3;
-    public GameObject middle4;
+  public GameObject ring_a;
+  public GameObject ring_b;
+  public GameObject ring_c;
+  public GameObject ring_end;
 
-    public GameObject ring1;
-    public GameObject ring2;
-    public GameObject ring3;
-    public GameObject ring4;
+  public GameObject pinky_a;
+  public GameObject pinky_b;
+  public GameObject pinky_c;
+  public GameObject pinky_end;
 
-    private string recordedData = "";
-    private int counter = 0;
-    private Quaternion thumb1Value = Quaternion.identity;
-    private Quaternion index1Value = Quaternion.identity;
+  private string recordedData = "";
+  private int counter = 0;
+  private Quaternion middle_aValue = Quaternion.identity;
+  private Quaternion index_aValue = Quaternion.identity;
 
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log("Hello");
-    }
+        Debug.Log("Starting recording...");
+  }
 
     // Update is called once per frame
     void Update()
     {
 
-        if (thumb1.transform.rotation != thumb1Value || index1.transform.rotation != index1Value)
+        if (middle_a.transform.rotation != middle_aValue || index_a.transform.rotation != index_aValue)
         {
 
-            recordedData = recordedData + thumb1.transform.rotation.x + "," + thumb1.transform.rotation.y + "," + thumb1.transform.rotation.z + "," + thumb1.transform.rotation.w ; //+ thumb2.transform.rotation + thumb3.transform.rotation;
+            recordedData = recordedData + index_a.transform.rotation.x + "," + index_a.transform.rotation.y + "," + index_a.transform.rotation.z + "," + index_a.transform.rotation.w ; //+ thumb2.transform.rotation + thumb3.transform.rotation;
 
-            for (int i = 0; i < 4; i++) {
-              recordedData = recordedData + "," + thumb2.transform.rotation[i];
-            }
-            for (int i = 0; i < 4; i++) {
-              recordedData = recordedData + "," + thumb3.transform.rotation[i];
+            for (int i = 0; i < 4; i++)
+            {
+              recordedData = recordedData + "," + index_b.transform.rotation[i];
             }
             for (int i = 0; i < 4; i++)
             {
-              recordedData = recordedData + "," + thumb4.transform.rotation[i];
+              recordedData = recordedData + "," + index_c.transform.rotation[i];
+            }
+            for (int i = 0; i < 4; i++)
+            {
+              recordedData = recordedData + "," + index_end.transform.rotation[i];
+            }
+
+      for (int i = 0; i < 4; i++) {
+              recordedData = recordedData + "," + middle_a.transform.rotation[i];
+            }
+            for (int i = 0; i < 4; i++) {
+              recordedData = recordedData + "," + middle_b.transform.rotation[i];
+            }
+            for (int i = 0; i < 4; i++) {
+              recordedData = recordedData + "," + middle_c.transform.rotation[i];
+            }
+            for (int i = 0; i < 4; i++) {
+              recordedData = recordedData + "," + middle_end.transform.rotation[i];
             }
 
             for (int i = 0; i < 4; i++) {
-              recordedData = recordedData + "," + index1.transform.rotation[i];
+              recordedData = recordedData + "," + ring_a.transform.rotation[i];
             }
             for (int i = 0; i < 4; i++) {
-              recordedData = recordedData + "," + index2.transform.rotation[i];
+              recordedData = recordedData + "," + ring_b.transform.rotation[i];
             }
             for (int i = 0; i < 4; i++) {
-              recordedData = recordedData + "," + index3.transform.rotation[i];
+              recordedData = recordedData + "," + ring_c.transform.rotation[i];
             }
             for (int i = 0; i < 4; i++) {
-              recordedData = recordedData + "," + index4.transform.rotation[i];
-            }
-
-            for (int i = 0; i < 4; i++) {
-              recordedData = recordedData + "," + middle1.transform.rotation[i];
-            }
-            for (int i = 0; i < 4; i++) {
-              recordedData = recordedData + "," + middle2.transform.rotation[i];
-            }
-            for (int i = 0; i < 4; i++) {
-              recordedData = recordedData + "," + middle3.transform.rotation[i];
-            }
-            for (int i = 0; i < 4; i++) {
-              recordedData = recordedData + "," + middle4.transform.rotation[i];
+              recordedData = recordedData + "," + ring_end.transform.rotation[i];
             }
 
-            for (int i = 0; i < 4; i++) {
-              recordedData = recordedData + "," + ring1.transform.rotation[i];
+            for (int i = 0; i < 4; i++)
+            {
+              recordedData = recordedData + "," + pinky_a.transform.rotation[i];
             }
-            for (int i = 0; i < 4; i++) {
-              recordedData = recordedData + "," + ring2.transform.rotation[i];
+            for (int i = 0; i < 4; i++)
+            {
+              recordedData = recordedData + "," + pinky_b.transform.rotation[i];
             }
-            for (int i = 0; i < 4; i++) {
-              recordedData = recordedData + "," + ring3.transform.rotation[i];
+            for (int i = 0; i < 4; i++)
+            {
+              recordedData = recordedData + "," + pinky_c.transform.rotation[i];
             }
-            for (int i = 0; i < 4; i++) {
-              recordedData = recordedData + "," + ring4.transform.rotation[i];
+            for (int i = 0; i < 4; i++)
+            {
+              recordedData = recordedData + "," + pinky_end.transform.rotation[i];
             }
 
             recordedData = recordedData + "\n";
 
             counter++;
-            if (counter % 200 == 0)
+            if (counter % 300 == 0)
             {
                 //string variableNames = "t1x, t1y, t1z, t1w";
-                string path = "Assets/my_scripts/kamen.csv";
+                string path = Path.Combine(Application.streamingAssetsPath, filename);
                 StreamWriter writer = new StreamWriter(path, true);
                 //writer.WriteLine(variableNames);
 
@@ -120,9 +127,8 @@ public class recordData : MonoBehaviour
             }
         }
 
-        thumb1Value = thumb1.transform.rotation;
-        index1Value = index1.transform.rotation;
+        middle_aValue = middle_a.transform.rotation;
+        index_aValue = index_a.transform.rotation;
 
     }
 }
-*/

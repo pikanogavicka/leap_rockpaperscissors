@@ -6,33 +6,32 @@ using System.IO;
 
 public class Play_recorded_data : MonoBehaviour
 {
-  public string oldFileName = "kamen.csv";
+  public string oldFileName = "kamen2.csv";
   public string newFileName = "kamen_filtered.csv";
 
   private List<Hand> rotations;
   private List<int> newRotations = new List<int>();
   private int currIndex = 0;
 
+  public GameObject index_a;
+  public GameObject index_b;
+  public GameObject index_c;
+  public GameObject index_end;
 
-  public GameObject thumb1;
-  public GameObject thumb2;
-  public GameObject thumb3;
-  public GameObject thumb4;
+  public GameObject middle_a;
+  public GameObject middle_b;
+  public GameObject middle_c;
+  public GameObject middle_end;
 
-  public GameObject index1;
-  public GameObject index2;
-  public GameObject index3;
-  public GameObject index4;
+  public GameObject ring_a;
+  public GameObject ring_b;
+  public GameObject ring_c;
+  public GameObject ring_end;
 
-  public GameObject middle1;
-  public GameObject middle2;
-  public GameObject middle3;
-  public GameObject middle4;
-
-  public GameObject ring1;
-  public GameObject ring2;
-  public GameObject ring3;
-  public GameObject ring4;
+  public GameObject pinky_a;
+  public GameObject pinky_b;
+  public GameObject pinky_c;
+  public GameObject pinky_end;
 
   float str2float(string str)
   {
@@ -47,6 +46,7 @@ public class Play_recorded_data : MonoBehaviour
       {
         var line = reader.ReadLine();
         var values = line.Split(',');
+        Debug.Log(values.Length);
 
         List<Quaternion> tmpJointsList = new List<Quaternion>();
         List<Finger> tmpFingersList = new List<Finger>();
@@ -70,16 +70,17 @@ public class Play_recorded_data : MonoBehaviour
         if (tmpFingersList.Count == 4)
         {
           Hand hand = new Hand();
-          hand.thumb = tmpFingersList[0];
-          hand.index = tmpFingersList[1];
-          hand.middle = tmpFingersList[2];
-          hand.ring = tmpFingersList[3];
+          hand.thumb = tmpFingersList[3];
+          hand.index = tmpFingersList[0];
+          hand.middle = tmpFingersList[1];
+          hand.ring = tmpFingersList[2];
 
           handList.Add(hand);
         }
 
       }
     }
+    Debug.Log(rotations.Count);
     Debug.Log("Successfully imported file.");
   }
 
@@ -97,25 +98,25 @@ public class Play_recorded_data : MonoBehaviour
   {
     Debug.Log(currIndex);
     Hand currHand = rotations[currIndex];
-    thumb1.transform.rotation = currHand.thumb.joint1;
-    thumb2.transform.rotation = currHand.thumb.joint2;
-    thumb3.transform.rotation = currHand.thumb.joint3;
-    thumb4.transform.rotation = currHand.thumb.joint4;
+    pinky_a.transform.rotation = currHand.thumb.joint1;
+    pinky_b.transform.rotation = currHand.thumb.joint2;
+    pinky_c.transform.rotation = currHand.thumb.joint3;
+    pinky_end.transform.rotation = currHand.thumb.joint4;
 
-    index1.transform.rotation = currHand.index.joint1;
-    index2.transform.rotation = currHand.index.joint2;
-    index3.transform.rotation = currHand.index.joint3;
-    index4.transform.rotation = currHand.index.joint4;
+    index_a.transform.rotation = currHand.index.joint1;
+    index_b.transform.rotation = currHand.index.joint2;
+    index_c.transform.rotation = currHand.index.joint3;
+    index_end.transform.rotation = currHand.index.joint4;
 
-    middle1.transform.rotation = currHand.middle.joint1;
-    middle2.transform.rotation = currHand.middle.joint2;
-    middle3.transform.rotation = currHand.middle.joint3;
-    middle4.transform.rotation = currHand.middle.joint4;
+    middle_a.transform.rotation = currHand.middle.joint1;
+    middle_b.transform.rotation = currHand.middle.joint2;
+    middle_c.transform.rotation = currHand.middle.joint3;
+    middle_end.transform.rotation = currHand.middle.joint4;
 
-    ring1.transform.rotation = currHand.ring.joint1;
-    ring2.transform.rotation = currHand.ring.joint2;
-    ring3.transform.rotation = currHand.ring.joint3;
-    ring4.transform.rotation = currHand.ring.joint4;
+    ring_a.transform.rotation = currHand.ring.joint1;
+    ring_b.transform.rotation = currHand.ring.joint2;
+    ring_c.transform.rotation = currHand.ring.joint3;
+    ring_end.transform.rotation = currHand.ring.joint4;
 
   }
 
@@ -136,35 +137,41 @@ public class Play_recorded_data : MonoBehaviour
 
     //going through the original rotations array
     for (int i = 0; i < rotations.Count; i++) {
-      //if the rotation was accepted
-      if (i == toAddIndex) {
-        Hand currHand = rotations[i];
-        Finger [] currFingers = currHand.getFingers();
-        //loop through all the fingers on the hand
-        for (int j = 0; j < currFingers.Length; j++) {
-          Quaternion[] currJoints = currFingers[j].getJoints();
-          //loop through all the joints in a finger
-          for (int k = 0; k < currJoints.Length; k++) {
-            accData += currJoints[k];
+      if (accRotIndex < accRot.Count) {
+        toAddIndex = accRot[accRotIndex];
+        //if the rotation was accepted
+        if (i == toAddIndex) {
+          Hand currHand = rotations[i];
+          Finger[] currFingers = currHand.getFingers();
+          //loop through all the fingers on the hand
+          for (int j = 0; j < currFingers.Length; j++)
+          {
+            Quaternion[] currJoints = currFingers[j].getJoints();
+            //loop through all the joints in a finger
+            for (int k = 0; k < currJoints.Length; k++)
+            {
+              accData += currJoints[k];
 
-            //if it is last joint on the last finger than add new line
-            if ( j == currFingers.Length - 1 && k == currJoints.Length - 1) {
-              accData += "\n";
-            }
-            //else add a seperating coma between values
-            else {
-              accData += ",";
+              //if it is last joint on the last finger than add new line
+              if (j == currFingers.Length - 1 && k == currJoints.Length - 1)
+              {
+                accData += "\n";
+              }
+              //else add a seperating coma between values
+              else
+              {
+                accData += ",";
+              }
             }
           }
+          //go to next accepted rotation index
+          accRotIndex++;
         }
-        writer.WriteLine(accData);
-        accData = "";
-        //go to next accepted rotation index
-        accRotIndex++;
-        toAddIndex = accRot[accRotIndex];
       }
     }
 
+    Debug.Log("Writting to file");
+    writer.WriteLine(accData);
     writer.Close();
 
     //Re-import the file to update the reference in the editor

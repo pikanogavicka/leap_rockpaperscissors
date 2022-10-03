@@ -8,10 +8,10 @@ using System.Linq;
 public class knn : MonoBehaviour
 {
 
-    public GameObject thumb1;
-    public GameObject thumb2;
-    public GameObject thumb3;
-    public GameObject thumb4;
+    public GameObject pinky_a;
+    public GameObject pinky_b;
+    public GameObject pinky_c;
+    public GameObject pinky_end;
 
     public GameObject index1;
     public GameObject index2;
@@ -66,10 +66,10 @@ public class knn : MonoBehaviour
     public int findClosest(int k=5) {
       //get current player hand position
       Finger thumb = new Finger();
-      thumb.joint1 = thumb1.transform.rotation;
-      thumb.joint2 = thumb2.transform.rotation;
-      thumb.joint3 = thumb3.transform.rotation;
-      thumb.joint4 = thumb4.transform.rotation;
+      thumb.joint1 = pinky_a.transform.rotation;
+      thumb.joint2 = pinky_b.transform.rotation;
+      thumb.joint3 = pinky_c.transform.rotation;
+      thumb.joint4 = pinky_end.transform.rotation;
       Finger index = new Finger();
       index.joint1 = index1.transform.rotation;
       index.joint2 = index2.transform.rotation;
@@ -168,10 +168,10 @@ public class knn : MonoBehaviour
           if (tmpFingersList.Count == 4)
           {
             Hand hand = new Hand();
-            hand.thumb = tmpFingersList[0];
-            hand.index = tmpFingersList[1];
-            hand.middle = tmpFingersList[2];
-            hand.ring = tmpFingersList[3];
+            hand.thumb = tmpFingersList[3];
+            hand.index = tmpFingersList[0];
+            hand.middle = tmpFingersList[1];
+            hand.ring = tmpFingersList[2];
 
             handList.Add(hand);
           }
@@ -186,15 +186,15 @@ public class knn : MonoBehaviour
     {
       //upload csv files with pre-recorded rotations
       paperRot = new List<Hand>();
-      string paperPath = Path.Combine(Application.streamingAssetsPath, "papir.csv");
+      string paperPath = Path.Combine(Application.streamingAssetsPath, "papir2.csv");
       csv2QuatList(paperPath, paperRot);
 
       scissorsRot = new List<Hand>();
-      string scissorsPath = Path.Combine(Application.streamingAssetsPath, "skarje.csv");
+      string scissorsPath = Path.Combine(Application.streamingAssetsPath, "skarje2.csv");
       csv2QuatList(scissorsPath, scissorsRot);
 
       rockRot = new List<Hand>();
-      string rockPath = Path.Combine(Application.streamingAssetsPath, "kamen.csv");
+      string rockPath = Path.Combine(Application.streamingAssetsPath, "kamen2.csv");
       csv2QuatList(rockPath, rockRot);
 
     }
