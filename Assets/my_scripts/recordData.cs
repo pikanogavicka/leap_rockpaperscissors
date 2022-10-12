@@ -119,8 +119,8 @@ public class recordData : MonoBehaviour
                 writer.Close();
 
                 //Re-import the file to update the reference in the editor
-                AssetDatabase.ImportAsset(path);
-                TextAsset asset = (TextAsset)Resources.Load("skarje");
+                //AssetDatabase.ImportAsset(path);
+                //TextAsset asset = (TextAsset)Resources.Load("skarje");
 
                 //Print the text from the file
                 Debug.Log("saved");

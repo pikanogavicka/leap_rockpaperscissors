@@ -8,10 +8,10 @@ using System.Linq;
 public class knn : MonoBehaviour
 {
     //K for k nearest neighbours
-    public int K = 10;
+    public int K = 12;
 
     //number of last hand transforms saved in buffer
-    private static int buffer_size = 3;
+    private static int buffer_size = 2;
     private int curr_buffer = 0;
     private Hand[] hand_transform_buffer = new Hand[buffer_size];
 

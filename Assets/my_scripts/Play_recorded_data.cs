@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using System.IO;
+using System.Linq;
 
 public class Play_recorded_data : MonoBehaviour
 {
@@ -150,7 +151,9 @@ public class Play_recorded_data : MonoBehaviour
             //loop through all the joints in a finger
             for (int k = 0; k < currJoints.Length; k++)
             {
-              accData += currJoints[k];
+              string tmp = currJoints[k].ToString().Replace("(", "").Replace(")", "");
+              Debug.Log(tmp);
+              accData += tmp;
 
               //if it is last joint on the last finger than add new line
               if (j == currFingers.Length - 1 && k == currJoints.Length - 1)
@@ -170,15 +173,12 @@ public class Play_recorded_data : MonoBehaviour
       }
     }
 
-    accData = accData.Replace("(", "");
-    accData = accData.Replace(")", "");
-    Debug.Log("Writting to file");
     writer.WriteLine(accData);
     writer.Close();
 
     //Re-import the file to update the reference in the editor
-    AssetDatabase.ImportAsset(path);
-    TextAsset asset = (TextAsset)Resources.Load(newFileName.Split('.')[0]);
+    //AssetDatabase.ImportAsset(path);
+    //TextAsset asset = (TextAsset)Resources.Load(newFileName.Split('.')[0]);
 
     Debug.Log("Successfully wrote to file.");
   }
