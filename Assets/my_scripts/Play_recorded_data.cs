@@ -170,6 +170,8 @@ public class Play_recorded_data : MonoBehaviour
       }
     }
 
+    accData = accData.Replace("(", "");
+    accData = accData.Replace(")", "");
     Debug.Log("Writting to file");
     writer.WriteLine(accData);
     writer.Close();

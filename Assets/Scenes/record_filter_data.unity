@@ -2733,13 +2733,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1792931532}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cca570699f780ee46bff514193ca14b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  oldFileName: papir2.csv
-  newFileName: papir_filtered.csv
+  oldFileName: kamen2.csv
+  newFileName: kamen_filtered.csv
   index_a: {fileID: 829272169}
   index_b: {fileID: 1941940972}
   index_c: {fileID: 936475341}
@@ -2768,7 +2768,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90288be3abef80f46b4d399260a0f211, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  filename: skarje2.csv
+  filename: papir2.csv
   index_a: {fileID: 494651241}
   index_b: {fileID: 249275029}
   index_c: {fileID: 2103752659}

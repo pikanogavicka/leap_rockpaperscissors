@@ -7,6 +7,13 @@ using System.Linq;
 
 public class knn : MonoBehaviour
 {
+    //K for k nearest neighbours
+    public int K = 10;
+
+    //number of last hand transforms saved in buffer
+    private static int buffer_size = 3;
+    private int curr_buffer = 0;
+    private Hand[] hand_transform_buffer = new Hand[buffer_size];
 
     public GameObject pinky_a;
     public GameObject pinky_b;
@@ -63,38 +70,12 @@ public class knn : MonoBehaviour
     }
 
     // distance is sum of differences between each joint rotations
-    public int findClosest(int k=5) {
-      //get current player hand position
-      Finger thumb = new Finger();
-      thumb.joint1 = pinky_a.transform.rotation;
-      thumb.joint2 = pinky_b.transform.rotation;
-      thumb.joint3 = pinky_c.transform.rotation;
-      thumb.joint4 = pinky_end.transform.rotation;
-      Finger index = new Finger();
-      index.joint1 = index1.transform.rotation;
-      index.joint2 = index2.transform.rotation;
-      index.joint3 = index3.transform.rotation;
-      index.joint4 = index4.transform.rotation;
-      Finger middle = new Finger();
-      middle.joint1 = middle1.transform.rotation;
-      middle.joint2 = middle2.transform.rotation;
-      middle.joint3 = middle3.transform.rotation;
-      middle.joint4 = middle4.transform.rotation;
-      Finger ring = new Finger();
-      ring.joint1 = ring1.transform.rotation;
-      ring.joint2 = ring2.transform.rotation;
-      ring.joint3 = ring3.transform.rotation;
-      ring.joint4 = ring4.transform.rotation;
-      Hand currentHand = new Hand();
-      currentHand.thumb = thumb;
-      currentHand.index = index;
-      currentHand.middle = middle;
-      currentHand.ring = ring;
+    public int findClosest() {
 
       //define arrays to store the closest k elements
-      float[] closestDist = new float[k];
-      int[] closestType = new int[k];
-      for (int i=0; i <k; i++) {
+      float[] closestDist = new float[K];
+      int[] closestType = new int[K];
+      for (int i=0; i <K; i++) {
         closestDist[i] = float.MaxValue;
         closestType[i] = -1;
       }
@@ -110,13 +91,18 @@ public class knn : MonoBehaviour
       foreach (List<Hand> rotList in allRotLists) {
         //loop through each finger position for each type
         foreach (Hand hand in rotList) {
-          float tmpDistance = HandDiff(hand, currentHand);
+        //loop through the buffer of last buffer_size player hands
+        foreach (Hand player_hand in hand_transform_buffer)
+        {
+          float tmpDistance = HandDiff(hand, player_hand);
           float tmpMax = closestDist.Max();
-          if (tmpDistance < closestDist.Max()) {
+          if (tmpDistance < closestDist.Max())
+          {
             int tmpIndex = closestDist.ToList().IndexOf(tmpMax);
             closestDist[tmpIndex] = tmpDistance;
             closestType[tmpIndex] = type;
           }
+        }
         }
         type += 1;
       }
@@ -125,7 +111,7 @@ public class knn : MonoBehaviour
       int paper = 0;
       int scissors = 0;
       int rock = 0;
-      for (int i=0; i<k; i++) {
+      for (int i=0; i<K; i++) {
         if (closestType[i] == 0) paper++;
         else if (closestType[i] == 1) scissors++;
         else rock++;
@@ -202,7 +188,34 @@ public class knn : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-      //int closestType = findClosest();
-      //Debug.Log(closestType);
+      //get current player hand position
+      Finger thumb = new Finger();
+      thumb.joint1 = pinky_a.transform.rotation;
+      thumb.joint2 = pinky_b.transform.rotation;
+      thumb.joint3 = pinky_c.transform.rotation;
+      thumb.joint4 = pinky_end.transform.rotation;
+      Finger index = new Finger();
+      index.joint1 = index1.transform.rotation;
+      index.joint2 = index2.transform.rotation;
+      index.joint3 = index3.transform.rotation;
+      index.joint4 = index4.transform.rotation;
+      Finger middle = new Finger();
+      middle.joint1 = middle1.transform.rotation;
+      middle.joint2 = middle2.transform.rotation;
+      middle.joint3 = middle3.transform.rotation;
+      middle.joint4 = middle4.transform.rotation;
+      Finger ring = new Finger();
+      ring.joint1 = ring1.transform.rotation;
+      ring.joint2 = ring2.transform.rotation;
+      ring.joint3 = ring3.transform.rotation;
+      ring.joint4 = ring4.transform.rotation;
+      Hand currentHand = new Hand();
+      currentHand.thumb = thumb;
+      currentHand.index = index;
+      currentHand.middle = middle;
+      currentHand.ring = ring;
+
+      hand_transform_buffer[curr_buffer] = currentHand;
+      curr_buffer = (curr_buffer + 1) % buffer_size;
     }
 }

@@ -120,7 +120,7 @@ public class recordData : MonoBehaviour
 
                 //Re-import the file to update the reference in the editor
                 AssetDatabase.ImportAsset(path);
-                TextAsset asset = (TextAsset)Resources.Load("kamen");
+                TextAsset asset = (TextAsset)Resources.Load("skarje");
 
                 //Print the text from the file
                 Debug.Log("saved");
