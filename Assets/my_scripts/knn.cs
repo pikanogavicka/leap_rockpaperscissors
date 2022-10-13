@@ -10,11 +10,6 @@ public class knn : MonoBehaviour
     //K for k nearest neighbours
     public int K = 12;
 
-    //number of last hand transforms saved in buffer
-    private static int buffer_size = 2;
-    private int curr_buffer = 0;
-    private Hand[] hand_transform_buffer = new Hand[buffer_size];
-
     public GameObject pinky_a;
     public GameObject pinky_b;
     public GameObject pinky_c;
@@ -85,16 +80,41 @@ public class knn : MonoBehaviour
       allRotLists.Add(scissorsRot);
       allRotLists.Add(rockRot);
 
-      //type glede na zaporedje rotListov v allRotLists, ne spreminji zaporedja!
-      int type = 0;
+      //get current player hand position
+      Finger thumb = new Finger();
+      thumb.joint1 = pinky_a.transform.rotation;
+      thumb.joint2 = pinky_b.transform.rotation;
+      thumb.joint3 = pinky_c.transform.rotation;
+      thumb.joint4 = pinky_end.transform.rotation;
+      Finger index = new Finger();
+      index.joint1 = index1.transform.rotation;
+      index.joint2 = index2.transform.rotation;
+      index.joint3 = index3.transform.rotation;
+      index.joint4 = index4.transform.rotation;
+      Finger middle = new Finger();
+      middle.joint1 = middle1.transform.rotation;
+      middle.joint2 = middle2.transform.rotation;
+      middle.joint3 = middle3.transform.rotation;
+      middle.joint4 = middle4.transform.rotation;
+      Finger ring = new Finger();
+      ring.joint1 = ring1.transform.rotation;
+      ring.joint2 = ring2.transform.rotation;
+      ring.joint3 = ring3.transform.rotation;
+      ring.joint4 = ring4.transform.rotation;
+      Hand playerHand = new Hand();
+      playerHand.thumb = thumb;
+      playerHand.index = index;
+      playerHand.middle = middle;
+      playerHand.ring = ring;
+
+    //type glede na zaporedje rotListov v allRotLists, ne spreminji zaporedja!
+    int type = 0;
       //loop thorugh list for each type
       foreach (List<Hand> rotList in allRotLists) {
         //loop through each finger position for each type
         foreach (Hand hand in rotList) {
         //loop through the buffer of last buffer_size player hands
-        foreach (Hand player_hand in hand_transform_buffer)
-        {
-          float tmpDistance = HandDiff(hand, player_hand);
+          float tmpDistance = HandDiff(hand, playerHand);
           float tmpMax = closestDist.Max();
           if (tmpDistance < closestDist.Max())
           {
@@ -102,7 +122,6 @@ public class knn : MonoBehaviour
             closestDist[tmpIndex] = tmpDistance;
             closestType[tmpIndex] = type;
           }
-        }
         }
         type += 1;
       }
@@ -185,37 +204,4 @@ public class knn : MonoBehaviour
 
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-      //get current player hand position
-      Finger thumb = new Finger();
-      thumb.joint1 = pinky_a.transform.rotation;
-      thumb.joint2 = pinky_b.transform.rotation;
-      thumb.joint3 = pinky_c.transform.rotation;
-      thumb.joint4 = pinky_end.transform.rotation;
-      Finger index = new Finger();
-      index.joint1 = index1.transform.rotation;
-      index.joint2 = index2.transform.rotation;
-      index.joint3 = index3.transform.rotation;
-      index.joint4 = index4.transform.rotation;
-      Finger middle = new Finger();
-      middle.joint1 = middle1.transform.rotation;
-      middle.joint2 = middle2.transform.rotation;
-      middle.joint3 = middle3.transform.rotation;
-      middle.joint4 = middle4.transform.rotation;
-      Finger ring = new Finger();
-      ring.joint1 = ring1.transform.rotation;
-      ring.joint2 = ring2.transform.rotation;
-      ring.joint3 = ring3.transform.rotation;
-      ring.joint4 = ring4.transform.rotation;
-      Hand currentHand = new Hand();
-      currentHand.thumb = thumb;
-      currentHand.index = index;
-      currentHand.middle = middle;
-      currentHand.ring = ring;
-
-      hand_transform_buffer[curr_buffer] = currentHand;
-      curr_buffer = (curr_buffer + 1) % buffer_size;
-    }
 }
